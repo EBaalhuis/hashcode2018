@@ -139,8 +139,27 @@ public class HC2019 {
 	public static long eval(Instance I, Solution S) {
 		long res = 0;
 
-		
+		for (int j = 0; j < S.slides.size()-1; j++) {
+			Slide s1 = S.slides.get(j);
+			Slide s2 = S.slides.get(j+1);
+			
+			res += score(s1, s2);
+		}
 
 		return res;
+	}
+	
+	public static long score(Slide s1, Slide s2) {
+		HashSet<String> set1 = new HashSet<>();
+		HashSet<String> set2 = new HashSet<>();
+		
+		set1.addAll(s1.tags());
+		set1.removeAll(s2.tags());
+		
+		set2.addAll(s2.tags());
+		set2.removeAll(s1.tags());
+		
+		long min = Math.min(set1.size(), set2.size());
+		return Math.min(min, (s1.tags().size() + s2.tags().size() - set1.size() - set2.size())/2);
 	}
 }
