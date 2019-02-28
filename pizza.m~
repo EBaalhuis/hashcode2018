@@ -1,0 +1,28 @@
+for i=0:9
+    for j=0:9
+        fnm = sprintf('/home/erik/git/hashcode2018/files/nm_%d_%d.m',i,j);
+        load(fnm)
+        n=nm(1); % number of possible slices
+        m=20*25; % number of pizza pieces (r*c)
+        ff = sprintf('/home/erik/git/hashcode2018/files/f_%d_%d.m',i,j);
+        load(ff)
+        fa = sprintf('/home/erik/git/hashcode2018/files/A_%d_%d.m',i,j);
+        load(fa)
+        sp = spconvert(A);
+        b = ones(m,1);
+        intcon = 1:n;
+        Aeq=[];
+        beq=[];
+        lb=zeros(n,1);
+        ub=ones(n,1);
+
+        options = optimoptions('intlinprog','MaxTime',60);
+        i
+        j
+        x = intlinprog(f,intcon,sp,b,Aeq,beq,lb,ub,options);
+        x = round(x);
+        fout = sprintf('/home/erik/git/hashcode2018/mfiles/x_%d_%d.m',i,j);
+        save(fout, 'x', '-ASCII');
+
+    end
+end
